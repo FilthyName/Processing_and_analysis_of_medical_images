@@ -1,0 +1,39 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900">
+  <defs>
+    <style>
+      .hdr { fill:#1f2937; }
+      .hdrtext { fill:#ffffff; font-family:Segoe UI,Arial,sans-serif; font-size:28px; font-weight:600; }
+      .meta { fill:#d1d5db; font-family:Segoe UI,Arial,sans-serif; font-size:14px; }
+      .box { fill:#ffffff; stroke:#9ca3af; stroke-width:2; }
+      .legend-title { font-family:Segoe UI,Arial,sans-serif; font-size:16px; font-weight:600; fill:#111827; }
+      .legend-text { font-family:Segoe UI,Arial,sans-serif; font-size:14px; fill:#374151; }
+      .ws { fill:#f9fafb; stroke:#e5e7eb; stroke-dasharray:8 6; }
+      .foot { fill:#f3f4f6; }
+      .foottext { fill:#6b7280; font-family:Segoe UI,Arial,sans-serif; font-size:12px; }
+    </style>
+  </defs>
+
+  <!-- Шапка -->
+  <rect x="0" y="0" width="1600" height="64" class="hdr"/>
+  <text x="32" y="40" class="hdrtext">Последовательность — запрос инференса</text>
+  <text x="1360" y="24" class="meta">Версия: v0.1</text>
+  <text x="1360" y="44" class="meta">Дата: YYYY-MM-DD</text>
+
+  <!-- Легенда -->
+  <rect x="1220" y="96" width="340" height="260" class="box"/>
+  <text x="1240" y="120" class="legend-title">Легенда</text>
+  <rect x="1240" y="140" width="16" height="16" fill="#3b82f6"/><text x="1264" y="153" class="legend-text">Пользователь/Актор</text>
+  <rect x="1240" y="170" width="16" height="16" fill="#10b981"/><text x="1264" y="183" class="legend-text">Сервис/Контейнер</text>
+  <rect x="1240" y="200" width="16" height="16" fill="#f59e0b"/><text x="1264" y="213" class="legend-text">Хранилище/Данные</text>
+  <rect x="1240" y="230" width="16" height="16" fill="#9ca3af"/><text x="1264" y="243" class="legend-text">Внешняя система</text>
+  <rect x="1240" y="260" width="16" height="16" fill="#ef4444"/><text x="1264" y="273" class="legend-text">Граница/зона доверия</text>
+
+  <!-- Рабочая область -->
+  <rect x="32" y="96" width="1168" height="680" class="ws"/>
+  <text x="48" y="124" class="legend-text" style="font-weight:600">Рабочая область — размещайте блоки и стрелки здесь</text>
+
+  <!-- Подвал -->
+  <rect x="0" y="860" width="1600" height="40" class="foot"/>
+  <text x="32" y="885" class="foottext">Исследовательский прототип • Не для клинического применения</text>
+  <text x="1240" y="885" class="foottext">Автор: (указать)</text>
+</svg>
