@@ -1,0 +1,10 @@
+﻿__pycache__/
+*.pyc
+.venv/
+.env
+.ipynb_checkpoints/
+data/raw/
+reports/*.png
+wandb/
+mlruns/
+.DS_Store
