@@ -1,42 +1,123 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900">
   <defs>
     <style>
-      .hdr { fill:#0F172A; } /* шапка */
+      .hdr { fill:#0F172A; }
       .hdrtext { fill:#ffffff; font-family: Inter, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; font-size:30px; font-weight:700; }
       .meta { fill:#E5E7EB; font-family: Inter, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; font-size:14px; }
       .box { fill:#ffffff; stroke:#CBD5E1; stroke-width:2; }
       .legend-title { font-family: Inter, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; font-size:17px; font-weight:700; fill:#111827; }
       .legend-text { font-family: Inter, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; font-size:15px; fill:#374151; }
-      .ws { fill:#F8FAFC; stroke:#E5E7EB; stroke-dasharray:8 6; }
+      .wsfill { fill:#F8FAFC; }
+      .wsborder { stroke:#E5E7EB; stroke-width:2; stroke-dasharray:8 6; fill:none; }
       .foot { fill:#F3F4F6; }
       .foottext { fill:#6B7280; font-family: Inter, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; font-size:12px; }
+      .label { font-family: Inter, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif; font-size:14px; fill:#111827; }
+      .arrow { stroke:#334155; stroke-width:2; fill:none; marker-end:url(#arrowHead); }
+      .arrowBack { stroke:#334155; stroke-width:2; fill:none; marker-end:url(#arrowHead); stroke-dasharray:4 4; }
     </style>
+    <marker id="arrowHead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
   </defs>
 
   <!-- Шапка -->
   <rect x="0" y="0" width="1600" height="64" class="hdr"/>
   <text x="32" y="40" class="hdrtext">Контекст. Обзор системы ISIC Skin Classifier (C4-1)</text>
-  <text x="1360" y="24" class="meta">Версия: v0.1</text>
+  <text x="1360" y="24" class="meta">Версия: v0.2</text>
   <text x="1360" y="44" class="meta">Дата: 30.10.2025</text>
 
   <!-- Легенда -->
-  <rect x="1220" y="96" width="340" height="260" class="box"/>
+  <rect x="1220" y="96" width="340" height="280" rx="10" ry="10" class="box"/>
   <text x="1240" y="120" class="legend-title">Легенда</text>
-  <!-- Роль/Пользователь — розовый -->
-  <rect x="1240" y="140" width="16" height="16" fill="#EC4899"/><text x="1264" y="153" class="legend-text">Пользователь/Роль</text>
-  <!-- Сервис/Контейнер -->
-  <rect x="1240" y="170" width="16" height="16" fill="#10B981"/><text x="1264" y="183" class="legend-text">Сервис/Контейнер</text>
-  <!-- Данные/Хранилище -->
-  <rect x="1240" y="200" width="16" height="16" fill="#F59E0B"/><text x="1264" y="213" class="legend-text">Данные/Хранилище</text>
-  <!-- Внешняя система -->
-  <rect x="1240" y="230" width="16" height="16" fill="#94A3B8"/><text x="1264" y="243" class="legend-text">Внешняя система</text>
-  <!-- Граница доверия -->
-  <rect x="1240" y="260" width="16" height="16" fill="none" stroke="#F43F5E" stroke-width="2" stroke-dasharray="8 6"/>
-  <text x="1264" y="273" class="legend-text">Граница доверия (пунктир)</text>
+  <rect x="1240" y="140" width="16" height="16" rx="3" ry="3" fill="#EC4899"/>
+  <text x="1264" y="153" class="legend-text">Роль / Пользователь</text>
+  <rect x="1240" y="170" width="16" height="16" rx="3" ry="3" fill="#10B981"/>
+  <text x="1264" y="183" class="legend-text">Сервис / Система</text>
+  <rect x="1240" y="200" width="16" height="16" rx="3" ry="3" fill="#F59E0B"/>
+  <text x="1264" y="213" class="legend-text">Данные / Хранилище</text>
+  <rect x="1240" y="230" width="16" height="16" rx="3" ry="3" fill="#94A3B8"/>
+  <text x="1264" y="243" class="legend-text">Внешняя система</text>
+  <rect x="1240" y="260" width="48" height="24" fill="none" stroke="#F43F5E" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="1296" y="277" class="legend-text">Граница доверия</text>
+  <text x="1240" y="302" class="legend-text" style="font-size:13px; fill:#6B7280">Подписи стрелок — глаголами: «POST /predict», «чтение модели», «публикация»</text>
 
   <!-- Рабочая область -->
-  <rect x="32" y="96" width="1168" height="680" class="ws"/>
-  <text x="48" y="124" class="legend-text" style="font-weight:700">Тут будут блоки и стрелки</text>
+  <rect x="32" y="96" width="1168" height="680" class="wsfill"/>
+  <rect x="32" y="96" width="1168" height="680" class="wsborder"/>
+  <text x="48" y="124" class="legend-text" style="font-weight:700">Контекстные участники и связи</text>
+
+  <!-- Граница нашей системы -->
+  <rect x="400" y="170" width="560" height="500" fill="none" stroke="#F43F5E" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="412" y="192" class="label" style="font-weight:700; fill:#F43F5E">ISIC Skin Classifier — граница системы (рантайм)</text>
+
+  <!-- Наша система -->
+  <rect x="440" y="220" width="480" height="180" rx="12" ry="12" fill="#10B981"/>
+  <text x="456" y="250" class="hdrtext" style="font-size:20px">ISIC Skin Classifier (наша система)</text>
+  <text x="456" y="276" class="meta" style="fill:#ffffff">Интерфейсы: Web UI (Streamlit) • REST API (FastAPI)</text>
+  <text x="456" y="298" class="meta" style="fill:#ffffff">Runtime: PyTorch / ONNX Runtime</text>
+  <text x="456" y="320" class="meta" style="fill:#ffffff">Ограничения: допустимые форматы JPG/PNG; лимит размера файла</text>
+
+  <!-- Внутренние артефакты и логи -->
+  <rect x="440" y="430" width="480" height="110" rx="10" ry="10" fill="#F59E0B" opacity="0.92"/>
+  <text x="456" y="460" class="legend-text" style="fill:#111827; font-weight:700">Артефакты и логи (внутри системы)</text>
+  <text x="456" y="482" class="legend-text" style="fill:#111827">reports/* • метрики • журналы предсказаний</text>
+  <text x="456" y="504" class="legend-text" style="fill:#6B7280">*без хранения исходных изображений</text>
+
+  <!-- Пользователь -->
+  <rect x="72" y="320" width="260" height="100" rx="10" ry="10" fill="#EC4899"/>
+  <text x="88" y="356" class="hdrtext" style="font-size:18px">Пользователь</text>
+  <text x="88" y="378" class="meta" style="fill:#fff">Врач / Исследователь</text>
+
+  <!-- Клиентский браузер (вне системы) -->
+  <rect x="280" y="330" width="180" height="80" rx="10" ry="10" fill="#94A3B8"/>
+  <text x="296" y="364" class="label" style="fill:#0f172a; font-weight:700">Браузер (Web UI)</text>
+  <text x="296" y="384" class="label" style="fill:#334155">клиентская часть</text>
+
+  <!-- Среда обучения (офлайн) вокруг ISIC+GitHub -->
+  <rect x="980" y="200" width="240" height="260" fill="none" stroke="#F43F5E" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="988" y="220" class="label" style="font-weight:700; fill:#F43F5E">Среда обучения (офлайн)</text>
+
+  <!-- Внешние системы -->
+  <rect x="1000" y="240" width="200" height="80" rx="10" ry="10" fill="#94A3B8"/>
+  <text x="1016" y="274" class="label" style="fill:#0f172a; font-weight:700">ISIC Dataset</text>
+  <text x="1016" y="294" class="label" style="fill:#334155">источник обучающих данных</text>
+
+  <rect x="1000" y="360" width="200" height="80" rx="10" ry="10" fill="#94A3B8"/>
+  <text x="1016" y="394" class="label" style="fill:#0f172a; font-weight:700">GitHub</text>
+  <text x="1016" y="414" class="label" style="fill:#334155">код, конфигурации, документация</text>
+
+  <!-- Стрелки: пользователь -> браузер -> система -->
+  <path d="M332 370 L280 370" class="arrow"/>
+  <text x="220" y="360" class="label">использует</text>
+
+  <path d="M460 370 L460 370" class="arrow"/> <!-- placeholder to keep spacing -->
+
+  <path d="M460 370 L440 370" class="arrow"/>
+  <text x="350" y="390" class="label">POST /v1/predict (изображение)</text>
+
+  <!-- Ответ из системы -->
+  <path d="M440 396 L280 396" class="arrowBack"/>
+  <text x="312" y="416" class="label">JSON: класс, вероятности</text>
+
+  <!-- Визуализация результата -->
+  <path d="M280 406 L72 406" class="arrowBack"/>
+  <text x="140" y="426" class="label">визуализация результата</text>
+
+  <!-- Офлайн артефакты из среды обучения в систему -->
+  <path d="M980 280 L920 280" class="arrow"/>
+  <text x="780" y="270" class="label">Офлайн: экспорт весов / артефактов модели</text>
+
+  <!-- Код/конфиги из GitHub в систему -->
+  <path d="M980 400 L920 400" class="arrow"/>
+  <text x="800" y="392" class="label">репозиторий кода и конфигураций</text>
+
+  <!-- Публикация результатов обратно (ручная, пунктир) -->
+  <path d="M920 420 L980 420" class="arrowBack"/>
+  <text x="776" y="436" class="label">публикация результатов (вручную)</text>
+
+  <!-- Логирование внутри системы -->
+  <path d="M680 400 L680 430" class="arrow"/>
+  <text x="690" y="420" class="label">логирование</text>
 
   <!-- Подвал -->
   <rect x="0" y="860" width="1600" height="40" class="foot"/>
