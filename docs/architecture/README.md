@@ -1,6 +1,10 @@
 ﻿# Архитектура (C4 + UML)
 Версия: v0.1 • Дата: 30/10/2025 • Автор: Nastya Khvostovets
 
+
+Описываем архитектуру сервиса по нотации С4. Подробнее: https://habr.com/ru/articles/565658/ 
+Правила: используем draw.io, в PR прикладываем и .drawio (исходник), и .svg (просмотр на GitHub)
+
 ## Диаграммы
 1. Контекст — exports/01-context.svg
 2. Контейнеры — exports/02-container.svg
@@ -9,4 +13,8 @@
 5. Последовательность (Inference request) — exports/05-sequence-inference.svg
 6. Деплоймент — exports/06-deployment.s
 
+
+
 Правила: используем draw.io, в PR прикладываем и .drawio (исходник), и .svg (просмотр на GitHub)
+
+Часть 1. Контекст
