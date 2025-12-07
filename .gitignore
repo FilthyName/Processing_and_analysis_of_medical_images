@@ -8,3 +8,14 @@ reports/*.png
 wandb/
 mlruns/
 .DS_Store
+data/raw/
+models/
+*.pth
+*.pt
+*.zip
+*.7z
+*.tar
+*.gz
+*.npz
+results/*.npy
+.ipynb_checkpoints/
