@@ -5,3 +5,4 @@ numpy==2.0.1
 pillow==10.4.0
 torch
 torchvision
+python-multipart>=0.0.9
