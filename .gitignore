@@ -36,3 +36,8 @@ results/*.npy
 *.7z
 *.tar
 *.gz
+
+data/splits_old/
+data/raw/images/
+*.jpg
+*.png
