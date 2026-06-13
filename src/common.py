@@ -1,14 +1,3 @@
-"""
-common.py — общие компоненты пайплайна чекпойнта 7.
-
-Здесь сосредоточена вся логика, которую переиспользуют:
-  - src/dl_experiments.py     (обучение + логирование в MLflow)
-  - src/dl_demonstration.py   (инференс PRD-модели)
-  - notebooks/DL_*.ipynb      (те же функции, чтобы код не расходился)
-
-Совместимо с кодовой базой проекта: те же 7 классов, те же сплиты
-(колонки image,label,path,y), тот же билдер ViT-B/16, что и в ML_checkpoint6.
-"""
 from __future__ import annotations
 
 import io
@@ -152,6 +141,22 @@ def make_loaders(cfg, classes: Sequence[str]):
     return train_loader, val_loader, test_loader, (train_df, val_df, test_df)
 
 
+def make_loaders_explicit(splits_dir, images_dir, classes, *, image_size=224,
+                          augmentation="light", batch_size=32, num_workers=2):
+    """Лоадеры с явно заданными аугментацией и batch_size (для перебора экспериментов)."""
+    class_to_idx = {c: i for i, c in enumerate(classes)}
+    images_dir = Path(images_dir)
+    train_df, val_df, test_df = load_splits(splits_dir)
+    train_tf, eval_tf = build_transforms(image_size, augmentation)
+    train_ds = SkinLesionDataset(train_df, images_dir, class_to_idx, train_tf)
+    val_ds = SkinLesionDataset(val_df, images_dir, class_to_idx, eval_tf)
+    test_ds = SkinLesionDataset(test_df, images_dir, class_to_idx, eval_tf)
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+    return train_loader, val_loader, test_loader, (train_df, val_df, test_df)
+
+
 def compute_class_weights(train_df: pd.DataFrame, classes: Sequence[str]) -> torch.Tensor:
     from sklearn.utils.class_weight import compute_class_weight
 
@@ -185,9 +190,42 @@ def build_vit_b16(num_classes: int, pretrained=True, unfreeze_last_blocks=2, dro
 def build_resnet18(num_classes: int, pretrained=True, dropout=0.2):
     weights = models.ResNet18_Weights.DEFAULT if pretrained else None
     model = models.resnet18(weights=weights)
-    _freeze(model, trainable=False)  # frozen backbone — baseline из чекпойнта 3
+    _freeze(model, trainable=False)  
     in_features = model.fc.in_features
     model.fc = nn.Sequential(nn.Dropout(dropout), nn.Linear(in_features, num_classes))
+    return model
+
+
+def build_resnet18_finetune(num_classes: int, pretrained=True, dropout=0.3):
+    """ResNet-18 с разморозкой layer4 (fine-tuning) — как в чекпойнте 6."""
+    weights = models.ResNet18_Weights.DEFAULT if pretrained else None
+    model = models.resnet18(weights=weights)
+    _freeze(model, trainable=False)
+    for p in model.layer4.parameters():
+        p.requires_grad = True
+    in_features = model.fc.in_features
+    model.fc = nn.Sequential(nn.Dropout(dropout), nn.Linear(in_features, num_classes))
+    return model
+
+
+def build_mobilenet_v2(num_classes: int, pretrained=True, dropout=0.2):
+    weights = models.MobileNet_V2_Weights.DEFAULT if pretrained else None
+    model = models.mobilenet_v2(weights=weights)
+    _freeze(model, trainable=False)
+    in_features = model.classifier[1].in_features
+    model.classifier = nn.Sequential(nn.Dropout(dropout), nn.Linear(in_features, num_classes))
+    return model
+
+
+def build_efficientnet_b0(num_classes: int, pretrained=True, unfreeze_last_blocks=True, dropout=0.3):
+    weights = models.EfficientNet_B0_Weights.DEFAULT if pretrained else None
+    model = models.efficientnet_b0(weights=weights)
+    _freeze(model, trainable=False)
+    if unfreeze_last_blocks:
+        for p in model.features[-2:].parameters():
+            p.requires_grad = True
+    in_features = model.classifier[1].in_features
+    model.classifier = nn.Sequential(nn.Dropout(dropout), nn.Linear(in_features, num_classes))
     return model
 
 
@@ -202,6 +240,19 @@ def build_model(arch: str, num_classes: int, **kw) -> nn.Module:
     if arch == "resnet18":
         return build_resnet18(
             num_classes, pretrained=kw.get("pretrained", True), dropout=kw.get("dropout", 0.2)
+        )
+    if arch == "resnet18_finetune":
+        return build_resnet18_finetune(
+            num_classes, pretrained=kw.get("pretrained", True), dropout=kw.get("dropout", 0.3)
+        )
+    if arch == "mobilenet_v2":
+        return build_mobilenet_v2(
+            num_classes, pretrained=kw.get("pretrained", True), dropout=kw.get("dropout", 0.2)
+        )
+    if arch == "efficientnet_b0":
+        return build_efficientnet_b0(
+            num_classes, pretrained=kw.get("pretrained", True),
+            unfreeze_last_blocks=kw.get("unfreeze_last_blocks", True), dropout=kw.get("dropout", 0.3)
         )
     raise ValueError(f"Unknown arch: {arch}")
 
