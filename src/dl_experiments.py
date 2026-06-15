@@ -1,5 +1,5 @@
 """
-7ой чекпоинт
+чекпойнт 7.
 
 Запускается из CLI с Hydra-конфигом:
     python src/dl_experiments.py
@@ -50,7 +50,7 @@ def error_analysis(eval_out, test_df, classes, images_dir, out_dir: Path, num_ex
 
     wrong_idx = np.where(preds != targets)[0]
     conf = probs[np.arange(len(preds)), preds]
-    # самые уверенные ошибки — самые показательные для разбора
+    # самые «уверенные» ошибки — самые показательные для разбора
     wrong_sorted = wrong_idx[np.argsort(-conf[wrong_idx])]
     take = wrong_sorted[:num_examples]
 
@@ -170,6 +170,7 @@ def run_training(cfg, *, arch, epochs, lr, optimizer, augmentation, run_name,
     )
 
     with mlflow.start_run(run_name=run_name) as run:
+        # --- параметры ---
         mlflow.log_params({
             "arch": arch, "pretrained": cfg.model.pretrained, "epochs": epochs,
             "lr": lr, "optimizer": optimizer, "batch_size": train_cfg.train.batch_size,
@@ -234,7 +235,7 @@ def run_training(cfg, *, arch, epochs, lr, optimizer, augmentation, run_name,
             print(f"Подобран порог mel = {mel_threshold} (target sens {cfg.mel_threshold.target_sensitivity})")
 
         # --- сохранение модели ---
-        mlflow.pytorch.log_model(model, name="model")
+        mlflow.pytorch.log_model(model, artifact_path="model")
         ckpt_config = {"arch": arch, "dropout": cfg.model.dropout,
                        "unfreeze_last_blocks": cfg.model.unfreeze_last_blocks}
         if mel_threshold is not None:
