@@ -1,0 +1,56 @@
+seed: 42
+device: auto           
+
+data:
+  splits_dir: data/splits
+  images_dir: data/raw/images
+  image_size: 224
+  num_workers: 2
+  classes: [akiec, bcc, bkl, df, mel, nv, vasc]
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+
+model:
+  arch: vit_b_16           
+  pretrained: true            
+  unfreeze_last_blocks: 2     
+  dropout: 0.3
+  optimizer: adamw
+  lr: 1.0e-5
+  weight_decay: 1.0e-4
+
+train:
+  epochs: 10
+  batch_size: 16
+  augmentation: strong         
+  use_class_weights: true      
+  early_stopping_patience: 0    
+  selection_metric: macro_f1    
+
+baseline:
+  enabled: true
+  arch: resnet18              
+  epochs: 5
+  lr: 1.0e-3
+  optimizer: adam
+  augmentation: light
+
+robustness:
+  enabled: true
+  sample_size: 300             
+  perturbations: [hflip, rotate10, brightness, gaussian_noise, jpeg_compression]
+
+error_analysis:
+  num_examples: 16              
+
+mel_threshold:
+  enabled: true
+  positive: mel
+  target_sensitivity: 0.80      
+
+mlflow:
+  tracking_uri: http://localhost:5000
+  experiment_name: skin_lesion_isic2018
+  registered_model_name: skin_lesion_vit_b16
+  prod_alias: PRD              
+  run_name: vit_b16_final
