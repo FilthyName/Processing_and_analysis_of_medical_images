@@ -46,8 +46,15 @@ class RequestHistory(Base):
     elapsed_ms = Column(Float)
     image_width = Column(Integer)
     image_height = Column(Integer)
-
     predicted_class = Column(String, nullable=True)
+
+    confidence = Column(Float, nullable=True)
+    top3_classes = Column(String, nullable=True)
+    top3_probs = Column(String, nullable=True)
+    mode = Column(String, nullable=True)
+    model_name = Column(String, nullable=True)
+    architecture = Column(String, nullable=True)
+    stage = Column(String, nullable=True)
 
 
 def init_db() -> None:
